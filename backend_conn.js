@@ -6,6 +6,7 @@ exports.bkconn = function(json_param, callback) {
 	
 	var DeviceID;
 	var unitList;
+	var unitRes;
 	var result;
 
 	//Parameters for /query/device
@@ -29,8 +30,8 @@ exports.bkconn = function(json_param, callback) {
 		function(error, request, response) {
 			
 			if(request.body.result === "RESULT_OK") {
-				DeviceID = request.body.message.DeviceID;
-
+				DeviceID = request.body.message[0].DeviceID;
+				
 				//Parameters for /query/unit 
 				var unitqr = {"DeviceID" : DeviceID, "EmployeeRegistrationID" : "none", "UnitCondition" : "healthy"};
 
@@ -66,11 +67,11 @@ exports.bkconn = function(json_param, callback) {
 			if(request.body.result === "RESULT_OK") {
 
 				//Parameters for third function
-				unitList = request.body.message;
 				unitRes = request.body;
+				UnitID = request.body.message[0].UnitID;
 
 				//Calling the third function
-				third(unitList, unitRes);
+				third(UnitID, unitRes);
 			}
 			
 			else {
@@ -82,13 +83,13 @@ exports.bkconn = function(json_param, callback) {
 	}
 
 	//Third function for /unit/issue
-	var third = function(unitList, unitRes) {
+	var third = function(UnitID, unitRes) {
 
 		//Issue device
 		if (json_param.issue == true) {
-			
+
 			//Parameters for issuing unit
-			var unitissue = {"UnitID" : unitList[0].UnitID, "EmployeeRegistrationID" : json_param.EmployeeID};
+			var unitissue = {"UnitID" : UnitID, "EmployeeRegistrationID" : json_param.EmployeeID};
 
 			//Query for issuing unit		
 			request({
@@ -103,7 +104,7 @@ exports.bkconn = function(json_param, callback) {
 			}, 
 		
 			function(error, request, response) {
-
+			
 				if(request.body.result === "RESULT_OK") {
 
 					//Return UnitID
@@ -111,7 +112,7 @@ exports.bkconn = function(json_param, callback) {
 					callback(json_return);
 				}
 				else {
-
+					
 					var json_return = {"is_available" : false, "UnitID" : null};
 					callback(json_return);
 				}
