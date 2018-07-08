@@ -53,11 +53,11 @@ app.post('/login_auth', function(req, res) {
 					 };
 
 			back.bklogin(json_param, function(json_return) {
-				//console.log(json_return);
+
 				if(json_return.statusCode == 200)
-					res.json({"token": json_return.body});
+					res.status(json_return.statusCode).send(json_return/*"token": json_return.body*/);
 				else
-					res.status(json_return.statusCode).send(json_return.body);
+					res.json({"statusCode" : json_return.statusCode});
 			});
 		});
 				
@@ -65,8 +65,8 @@ app.post('/login_auth', function(req, res) {
 
 
 app.post('/chat', function(req, res){
-	console.log("POST request obtained at /chat");
-	console.log(req.method);
+	//console.log("POST request obtained at /chat");
+	//console.log(req.method);
 	console.log(req.body);
 
 	comm.chat(req, function(result, token, user) {
