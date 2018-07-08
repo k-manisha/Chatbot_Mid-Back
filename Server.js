@@ -54,8 +54,10 @@ app.post('/login_auth', function(req, res) {
 
 			back.bklogin(json_param, function(json_return) {
 
-				if(json_return.statusCode == 200)
+				if(json_return.statusCode == 200){
 					res.status(json_return.statusCode).send(json_return/*"token": json_return.body*/);
+					console.log("Account successfully logged in");
+				}
 				else
 					res.json({"statusCode" : json_return.statusCode});
 			});
@@ -72,8 +74,12 @@ app.post('/chat', function(req, res){
 	comm.chat(req, function(result, token, user) {
 		gen.verifyToken(token, function(response) {
 			if(response)
-			{chatbot(token, user, result, function(reply) {
-				res.send(reply);});
+			{	console.log("QUERY FROM MOBILE:"+result);
+				chatbot(token, user, result, function(reply) {
+				res.send(reply);
+				console.log("REPLY TO MOBILE:" +reply.answer);
+			});
+				
 			}
 			else{
 			res.status(401).send("Invalid token");
