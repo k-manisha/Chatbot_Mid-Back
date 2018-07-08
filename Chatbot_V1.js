@@ -20,8 +20,8 @@ module.exports = function (token,user_Id,query,callback) {
 					{
 						var requsest_to_backend={
 							'issue':false,
-							'parameters':Result.parameters
-
+							'parameters':Result.parameters,
+							'token':token
 						};
 						bkconn.bkconn(requsest_to_backend,function(result){
 							if(result.is_available==true){
@@ -62,8 +62,8 @@ module.exports = function (token,user_Id,query,callback) {
 					{
 						var requsest_to_backend={
 							'issue':false,
-							'parameters':Result.parameters
-
+							'parameters':Result.parameters,
+							'token':token
 						};
 						bkconn.bkconn(requsest_to_backend,function(result){
 							if(result.is_available==true){
@@ -107,7 +107,8 @@ module.exports = function (token,user_Id,query,callback) {
 				     Maker:Result.contexts[0].parameters.Maker,
 				     Model:Result.contexts[0].parameters.Model,
 				     RAM:Result.contexts[0].parameters.RAM},
-				     "token":token
+				     "token":token,
+				 	"EmployeeID":user_Id
 				 };
 				 
 
@@ -166,14 +167,18 @@ module.exports = function (token,user_Id,query,callback) {
 				     Maker:Result.contexts[0].parameters.Maker,
 				     Model:Result.contexts[0].parameters.Model,
 				     RAM:Result.contexts[0].parameters.RAM},
-				 	"token":token
+				 	"token":token,
+				 	"EmployeeID":user_Id
 				 }
 
 				 ;
 				 
 
 				 bkconn.bkconn(requsest_to_backend,function(result){
+							
 							if(result.is_available==true){
+					
+
 					reply={"answer":Result.fulfillment.speech+"Your unique device id is:"+result.UnitID,
 					"parameters":{ Accessories:Result.contexts[0].parameters.Accessories,
      				     DeviceType:Result.contexts[0].parameters.DeviceType,
@@ -273,6 +278,16 @@ module.exports = function (token,user_Id,query,callback) {
 		
 
 };
+
+
+
+
+
+
+
+
+
+
 
 
 
