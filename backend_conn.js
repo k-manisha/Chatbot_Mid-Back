@@ -9,8 +9,8 @@ exports.bkconn = function(json_param, callback) {
 	var result;
 
 	//Parameters for /query/device
-	var devqr = {"Accessories" : json_param.parameters.Accessories, "DeviceType" : json_param.parameters.DeviceType, "OS" : json_param.parameters.OS, "OSVersion" : json_param.parameters.OSVersion, "Make" : json_param.parameters.Make, "Model" : json_param.parameters.Model, "RAM" : json_param.parameters.RAM, "Storage" : json_param.parameters.Storage};
-	
+	var devqr = {"Accessories" : json_param.parameters.Accessories, "DeviceType" : json_param.parameters.DeviceType, "OS" : json_param.parameters.OS, "OSVersion" : json_param.parameters.OSVersion, "Make" : json_param.parameters.Maker, "Model" : json_param.parameters.Model, "RAM" : json_param.parameters.RAM, "Storage" : json_param.parameters.Storage};
+		
 	//First function for /query/device
 	var first = function(devqr) {
 
@@ -27,13 +27,13 @@ exports.bkconn = function(json_param, callback) {
 		}, 
 
 		function(error, request, response) {
-		
+			
 			if(request.body.result === "RESULT_OK") {
 				DeviceID = request.body.message.DeviceID;
-		
+
 				//Parameters for /query/unit 
 				var unitqr = {"DeviceID" : DeviceID, "EmployeeRegistrationID" : "none", "UnitCondition" : "healthy"};
-				
+
 				//Calling the second function
 				second(unitqr);
 			}
@@ -62,7 +62,7 @@ exports.bkconn = function(json_param, callback) {
 		}, 
 			
 		function(error, request,  response) {
-			
+
 			if(request.body.result === "RESULT_OK") {
 
 				//Parameters for third function
@@ -105,7 +105,7 @@ exports.bkconn = function(json_param, callback) {
 			function(error, request, response) {
 
 				if(request.body.result === "RESULT_OK") {
-					
+
 					//Return UnitID
 					var json_return = {"is_available" : true, "UnitID" : unitissue.UnitID};
 					callback(json_return);
@@ -162,7 +162,7 @@ exports.bklogin = function(json_param, callback) {
 		
 		//If <success>
 		if(request.statusCode == 200) {
-			var json_return = {"is_available" : true, "statusCode" : request.statusCode, "body" : request.body.token};
+			var json_return = {"is_available" : true, "statusCode" : request.statusCode, "body" : request.body};
 			callback(json_return);	
 		}
 	
