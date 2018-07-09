@@ -74,10 +74,10 @@ app.post('/chat', function(req, res){
 	comm.chat(req, function(result, token, user) {
 		gen.verifyToken(token, function(response) {
 			if(response)
-			{	console.log("QUERY FROM MOBILE:"+result);
+			{	console.log("QUERY FROM: "+result);
 				chatbot(token, user, result, function(reply) {
 				res.send(reply);
-				console.log("REPLY TO MOBILE:" +reply.answer);
+				console.log("REPLY TO: " +reply.answer);
 			});
 				
 			}
